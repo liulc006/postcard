@@ -5,11 +5,13 @@ import {Typography} from '@mui/material';
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
     <html lang="en">
-      <body style={{minHeight: '100vh'}}>
+      <body style={{display:'flex', minHeight: '100vh', flexDirection: 'column'}}>
         <div>
           <Nav />
         </div>
-        {children}
+        <main style={{flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0}}>
+          {children}
+        </main>
       </body>
     </html>
   );
