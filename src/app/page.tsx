@@ -1,6 +1,6 @@
 "use client";
 
-import {Typography, Box, TextField} from '@mui/material';
+import {Typography, Box, TextField, Button} from '@mui/material';
 import { useState } from 'react';
 
 function Home() {
@@ -38,6 +38,9 @@ function Home() {
                         <TextField id="to" label="To" sx={{width:'10rem'}} value={content.to} onChange={handleInputChange}/>
                     </Box>
                     <TextField id="message" label="Message" multiline rows={4} sx={{width:'100%'}} value={content.message} onChange={handleInputChange}/>
+                    <Box sx={{display: 'flex', justifyContent: 'right', marginTop: 2}}>
+                        <Button variant="contained" sx={{backgroundColor:'#464D77'}} onClick={() => setContent({from: '', to: '', message: ''})}>Clear</Button>
+                    </Box>
                 </Box>
 
                 {/* Postcard Preview Section */}
