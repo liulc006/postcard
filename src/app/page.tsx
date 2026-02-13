@@ -56,11 +56,12 @@ function Home() {
     };
 
     return (
-        <div style={{flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, marginRight: '16px', marginLeft: '16px'}}>
-            <Box style={{display:'flex', justifyContent:'center', marginTop: '16px', alignContent: 'center', flex: '0 0 auto'}}>
-                <Typography>This is creative webpage where you can personalize your postcards!</Typography>
+        <div style={{flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, marginRight: '16px', marginLeft: '16px', alignItems: 'center', justifyContent: 'center'}}>
+            <Box style={{display:'flex', flexDirection:'column', justifyContent:'center', marginTop: '16px', alignItems: 'center', flex: '0 0 auto', width:'800px', textAlign: 'center'}}>
+                <Typography sx={{color:'var(--color-primary)'}}>This is creative webpage where you can personalize your postcards!</Typography>
+                <Typography sx={{color:'var(--color-primary)'}}>Turn your memories into postcards! Upload your favorite photos, write a personal message, and design a one-of-a-kind postcard for trips, holidays, birthdays, or any special day. Create it, download it, and share the love.</Typography>
             </Box>
-            <Box style={{display:'flex', flexDirection: 'row', justifyContent:'center', marginTop: '16px', alignContent: 'center', flex: 1, minHeight: 0}}>
+            <Box style={{display:'flex', flexDirection: 'row', justifyContent:'space-evenly', marginTop: '16px', alignContent: 'center', flex: 1, minHeight: 0, width: '100%'}}>
                 {/* Postcard Input Section */}
                 <Box style={{display:'flex', flexDirection: 'column', justifyContent:'center', marginLeft: '20px', marginRight: '16px', alignContent: 'center', width: '40%', textAlign: 'center'}}>
                     <Box sx={{display: 'flex', flexDirection: 'row', gap: 2, marginBottom: 2, justifyContent:'space-between'}}>
@@ -70,13 +71,13 @@ function Home() {
                     <TextField id="message" label="Message" multiline rows={6} sx={{width:'100%'}} value={content.message} onChange={handleInputChange} slotProps={{ htmlInput: { maxLength: 500 } }} helperText="Max 500 characters"/>
                     <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', gap: 2}}>
                         <Box sx={{display: 'flex', justifyContent: 'left', marginTop: 2}}>
-                            <Button variant="contained" component="label" sx={{backgroundColor:'#464D77'}}>
+                            <Button variant="contained" component="label" sx={{backgroundColor:'var(--color-primary)'}}>
                                 Upload Image
                                 <input hidden type="file" accept="image/*" onChange={handleImageUpload} />
                             </Button>
                         </Box>
                         <Box sx={{display: 'flex', justifyContent: 'right', marginTop: 2}}>
-                            <Button variant="contained" sx={{backgroundColor:'#464D77'}} onClick={() => setContent({from: '', to: '', message: ''})}>Clear</Button>
+                            <Button variant="contained" sx={{backgroundColor:'var(--color-primary)'}} onClick={() => setContent({from: '', to: '', message: ''})}>Clear</Button>
                         </Box>
                     </Box>
                 </Box>
@@ -120,8 +121,8 @@ function Home() {
                             </Box>
                         }
                     </Box>
-                    <Box sx={{display: 'flex', justifyContent: 'right', width: '80%', marginTop: 2}}>
-                        <Button variant="contained" sx={{backgroundColor:'#464D77', marginLeft: '16px'}} onClick={handleDownload}>Download</Button>
+                    <Box sx={{display: 'flex', justifyContent: 'center', width: '80%', marginTop: 2}}>
+                        <Button variant="contained" sx={{backgroundColor:'var(--color-primary)', marginLeft: '16px'}} onClick={handleDownload}>Download</Button>
                     </Box>
                 </Box>
             </Box>

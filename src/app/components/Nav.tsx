@@ -14,10 +14,10 @@ export default function Nav() {
             <Typography id="title" variant="h1">Postcard App</Typography>
             <Toolbar style={{display: 'flex', justifyContent: 'center', gap: 16}}>
                 <Link href="/">
-                    <Button color={pathname === '/' ? 'secondary' : 'inherit'}>Home</Button>
+                    <Button sx={{color: 'var(--color-primary)', fontWeight: 'bold'}}>Home</Button>
                 </Link>
                 <Link href="/about">
-                    <Button color={pathname === '/about' ? 'secondary' : 'inherit'}>About</Button>
+                    <Button sx={{color: 'var(--color-primary)', fontWeight: 'bold'}}>About</Button>
                 </Link>
             </Toolbar>
         </Box>

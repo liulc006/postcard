@@ -1,10 +1,25 @@
+:root {
+    --color-primary: #464D77;
+    --color-secondary: #f4eded;
+}
+
 body {
     margin: 0;
     padding: 0;
-    background-color: #f4eded;
+    background-color: var(--color-secondary);
 }
 
 #title {
     font-family: 'montserrat', sans-serif;
     font-size: 36px;
+    font-weight: bolder;
+    color: var(--color-primary);
+}
+
+.nav-name {
+    font-family: 'montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: bolder;
+    color: var(--color-primary);
+    text-decoration: none;
 }
