@@ -7,6 +7,7 @@ import * as htmlToImage from "html-to-image";
 function Home() {
     const postcardRef = useRef<HTMLDivElement>(null);
     const [image, setImage] = useState<string | null>(null);
+    const [generationError, setGenerationError] = useState<boolean>(false);
 
     type Content = {
         from: string;
@@ -55,6 +56,44 @@ function Home() {
         link.click();
     };
 
+    // Generate message with AI
+    const [generating, setGenerating] = useState<boolean>(false);
+
+    const handleGenerate = async () => {
+        setGenerating(true);
+        try {
+            const res = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ from: content.from, to: content.to, message: content.message }),
+            });
+            
+            // Handle non-2xx responses (errors from the API)
+            if (!res.ok) {
+                const errData = await res.json();
+                const errMsg = errData?.error?.message || `HTTP ${res.status}`;
+                throw new Error(errMsg);
+            }
+            
+            const data = await res.json();
+            if (data?.message) {
+                setContent(prev => ({ ...prev, message: data.message }));
+            }
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                console.error('AI generation failed', e);
+                setGenerationError(true);
+                window.alert(`Failed to generate message via AI: ${e.message}. Please try again.`);
+            } else {
+                console.error('AI generation failed with unknown error', e);
+                setGenerationError(true);
+                window.alert(`Failed to generate message via AI due to an unknown error. Please try again.`);
+            }
+        } finally {
+            setGenerating(false);
+        }
+    };
+
     return (
         <div style={{flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, marginRight: '16px', marginLeft: '16px', alignItems: 'center', justifyContent: 'center'}}>
             <Box style={{display:'flex', flexDirection:'column', justifyContent:'center', marginTop: '16px', alignItems: 'center', flex: '0 0 auto', width:'800px', textAlign: 'center'}}>
@@ -68,16 +107,19 @@ function Home() {
                         <TextField id="from" label="From" sx={{width:'10rem'}} value={content.from} onChange={handleInputChange}/>
                         <TextField id="to" label="To" sx={{width:'10rem'}} value={content.to} onChange={handleInputChange}/>
                     </Box>
-                    <TextField id="message" label="Message" multiline rows={6} sx={{width:'100%'}} value={content.message} onChange={handleInputChange} slotProps={{ htmlInput: { maxLength: 500 } }} helperText="Max 500 characters"/>
+                    <TextField id="message" label="Message" placeholder="Message or Prompt for our AI to Generate a Message for You" multiline rows={6} sx={{width:'100%'}} value={content.message} onChange={handleInputChange} slotProps={{ htmlInput: { maxLength: 500 } }} helperText="Max 500 characters"/>
                     <Box sx={{display:'flex', flexDirection:'row', justifyContent:'space-between', alignItems:'center', gap: 2}}>
                         <Box sx={{display: 'flex', justifyContent: 'left', marginTop: 2}}>
                             <Button variant="contained" component="label" sx={{backgroundColor:'var(--color-primary)'}}>
                                 Upload Image
                                 <input hidden type="file" accept="image/*" onChange={handleImageUpload} />
                             </Button>
+                            <Button variant="contained" sx={{backgroundColor:'var(--color-primary)', marginLeft: '16px'}} onClick={handleGenerate} disabled={generating}>   
+                                {generating ? 'Generating...' : 'Generate Message with AI'}
+                            </Button>
                         </Box>
                         <Box sx={{display: 'flex', justifyContent: 'right', marginTop: 2}}>
-                            <Button variant="contained" sx={{backgroundColor:'var(--color-primary)'}} onClick={() => setContent({from: '', to: '', message: ''})}>Clear</Button>
+                            <Button variant="contained" sx={{backgroundColor:'var(--color-error)'}} onClick={() => setContent({from: '', to: '', message: ''})}>Clear</Button>
                         </Box>
                     </Box>
                 </Box>
